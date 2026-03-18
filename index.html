@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Q4 Drill 1</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+ 
+  <style>
+   
+    body {
+      background-color: white;
+      color: black;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      background-image: url(bg.png);
+      background-size: cover;
+    }
+ 
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 28px;
+      font-weight: bold;
+    }
+ 
+    h2 {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+ 
+    p {
+      font-size: 15px;
+    }
+
+    table {
+      width: 60%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      border-radius: 6px;
+      background-color: #f2f2f2;
+    }
+ 
+    th, td {
+      border: 2px solid black;
+      padding: 10px;
+      text-align: center;
+      border-radius: 6px;
+    }
+ 
+    th {
+      background-color: black;
+      color: white;
+    }
+ 
+    .classifier-box {
+      width: 60%;
+      margin: 30px auto;
+      text-align: center;
+      
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+ 
+    input[type="number"] {
+      border: 2px solid black;
+      padding: 8px;
+      width: 250px;
+      font-size: 16px;
+    }
+ 
+    button {
+      background-color: black;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+ 
+    button:hover {
+      background-color: #333;
+    }
+ 
+    #result {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+ 
+    .error-msg {
+      color: red;
+      font-style: italic;
+    }
+ 
+   
+    .sources {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+ 
+    .sources a {
+      color: black;
+      margin: 0 10px;
+    }
+
+
+    img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  align-items: center;
+  margin: 0 auto;
+}
+  </style>
+</head>
+ 
+<body>
+ 
+
+  <h1 style="color: #f2f2f2;">Electricity Consumption Classifier</h1>
+ 
+  
+  <div style="width: 60%; margin: 10px auto; text-align: center;">
+  <p style="color: #f2f2f2;">
+    This page helps classify electricity consumption based on the kilowatt-hour (kWh) usage calculated by the user.
+  </p>
+
+  <br>
+
+  <img src="yes.png" style="width: 100px; height: 100px; border-radius: 7px;">
+
+
+  <br> 
+  <br>
+  <br>
+  <p style="color: #f2f2f2;">
+    Enter your monthly electricity consumption in kWh and click the button to find out your consumption category.
+  </p>
+</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Category</th>
+        <th>Usage (kWh)</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Lifeline Consumer</td>
+        <td>0 - 100</td>
+        <td>Discounted electricity rates</td>
+      </tr>
+      <tr>
+        <td>Low Consumption</td>
+        <td>101 - 200</td>
+        <td>Normal residential rate</td>
+      </tr>
+      <tr>
+        <td>Average Consumption</td>
+        <td>201 - 300</td>
+        <td>Typical electricity usage</td>
+      </tr>
+      <tr>
+        <td>High Consumption</td>
+        <td>301 - 500</td>
+        <td>Higher electricity usage</td>
+      </tr>
+      <tr>
+        <td>Very High Consumption</td>
+        <td>Above 500</td>
+        <td>Heavy electricity users</td>
+      </tr>
+    </tbody>
+  </table>
+ 
+  <!-- Input and Classifier Section -->
+  <div class="classifier-box">
+    <h2>Check Your Consumption</h2>
+    <p>Enter your kilowatt-hour (kWh) usage below:</p>
+ 
+    <!-- Number input field -->
+    <input type="number" id="kwh" placeholder="Input kilowatt per hour">
+    <br><br>
+ 
+    <!-- Button to trigger the classify function -->
+    <button onclick="classify()">Consumption Classification</button>
+ 
+    <!-- Result / error message will appear here -->
+    <div id="result"></div>
+  </div>
+ 
+  <!-- Sources / References -->
+  <div class="sources">
+    <strong>Sources:</strong>
+    <a href="https://www.w3schools.com" target="_blank">W3Schools</a> |
+    <a href="https://github.com" target="_blank">GitHub</a> |
+    <a href="https://www.meralco.com.ph" target="_blank">Meralco</a>
+  </div>
+ 
+  <!-- JavaScript -->
+  <script>
+ 
+    // This function classifies the electricity consumption based on kWh input
+    function classify() {
+ 
+      // Get the value from the input field and convert it to a floating-point number
+      let kwh = parseFloat(document.getElementById("kwh").value);
+ 
+      // Get the result display element
+      let result = document.getElementById("result");
+ 
+      // Check if the input is empty or not a valid number
+      if (isNaN(kwh)) {
+        result.innerHTML = "<span class='error-msg'>Please enter a valid number.</span>";
+        return;
+      }
+ 
+      // Check if the user entered a negative number - show error
+      if (kwh < 0) {
+        result.innerHTML = "<span class='error-msg'>Please input a non-negative number.</span>";
+        return;
+      }
+ 
+      // Clear any previous error message
+      result.innerHTML = "";
+ 
+      // Conditional statements to determine the consumption category
+      if (kwh >= 0 && kwh <= 100) {
+        // Lifeline consumer - lowest range, gets discounted rate
+        window.alert("Lifeline Consumer : Discounted electricity rates.");
+ 
+      } else if (kwh >= 101 && kwh <= 200) {
+        // Low consumption range
+        window.alert("Low Consumption : Normal residential rate.");
+ 
+      } else if (kwh >= 201 && kwh <= 300) {
+        // Average consumption range
+        window.alert("Average Consumption : Typical electricity usage.");
+ 
+      } else if (kwh >= 301 && kwh <= 500) {
+        // High consumption range
+        window.alert("High Consumption : Higher electricity usage.");
+ 
+      } else {
+        // Very high consumption - above 500 kWh
+        window.alert("Very High Consumption : Heavy electricity users.");
+      }
+ 
+    }
+ 
+  </script>
+ 
+</body>
